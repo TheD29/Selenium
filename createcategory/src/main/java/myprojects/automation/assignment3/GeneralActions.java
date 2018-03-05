@@ -28,12 +28,12 @@ public class GeneralActions {
 
     /*Order category*/
     private By orderButton = By.xpath("//*[@id=\"product_catalog_list\"]/div[2]/div/table/thead/tr[1]/th[3]/span[1]");
-    private By performButton = By.name("products_filter_submit");
-    private By contentRow = By.xpath("//*[@id=\"product_catalog_list\"]/div[2]/div/table/tbody/tr[1]");
-    /*find by name*/
-    private By table = By.xpath("//*[@id=\"product_catalog_list\"]/div[2]/div/table/thead/tr[2]");
-    private By filterField = By.xpath("//*[@id=\"product_catalog_list\"]/div[2]/div/table/thead/tr[2]/th[3]/input");
-    private By resetButton = By.name("products_filter_reset");
+//    private By performButton = By.name("products_filter_submit");
+//    private By contentRow = By.xpath("//*[@id=\"product_catalog_list\"]/div[2]/div/table/tbody/tr[1]");
+//    /*find by name*/
+//    private By table = By.xpath("//*[@id=\"product_catalog_list\"]/div[2]/div/table/thead/tr[2]");
+//    private By filterField = By.xpath("//*[@id=\"product_catalog_list\"]/div[2]/div/table/thead/tr[2]/th[3]/input");
+//    private By resetButton = By.name("products_filter_reset");
 
 
     public GeneralActions getProductName() {
@@ -87,11 +87,11 @@ public class GeneralActions {
 
     }
 
-    public void performFilterCategory() {
-        driver.findElement(filterField).sendKeys(categoryName);
-        driver.findElement(table).click();
-        driver.findElement(performButton).click();
-    }
+//    public void performFilterCategory() {
+//        driver.findElement(filterField).sendKeys(categoryName);
+//        driver.findElement(table).click();
+//        driver.findElement(performButton).click();
+//    }
 
     public void orderCategory() {
         driver.findElement(orderButton).click();
@@ -105,11 +105,6 @@ public class GeneralActions {
         driver.findElement(element).click();
     }
 
-
-    public void waitForOrderReload() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText(categoryName)));
-        driver.findElement(By.linkText(categoryName)).getText();
-    }
 
     public void waitForAMessage(By element) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(element));
