@@ -1,6 +1,7 @@
-package myprojects.automation.assignment2.utils;
+package myprojects.automation.assignment3.utils;
 
 import org.openqa.selenium.remote.BrowserType;
+
 /**
  * Help class to get passed parameters from environment for further usage in the automation project
  */
