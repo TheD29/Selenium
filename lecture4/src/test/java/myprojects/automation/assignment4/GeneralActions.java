@@ -25,7 +25,7 @@ public class GeneralActions {
     private By categoryItem = By.xpath("//*[@id=\"subtab-AdminCatalog\"]/a");
     private By addNewCategory = By.xpath("//*[@id=\"page-header-desc-configuration-add\"]/span");
     private By productNameItem = By.id("form_step1_name_1");
-    private By saveButton = By.xpath("//div[@class =\"btn-group hide dropdown pull-right\"]/button");
+    private By saveButton = By.xpath("//*[@class='product-footer']/div[2]/div/button/span");
     private By fadeMessage = By.className("growl-message");
     private By produceCountTab = By.id("tab_step3");
     private By produceCount = By.id("form_step3_qty_0");
@@ -39,6 +39,7 @@ public class GeneralActions {
     /*Checking product creation*/
     private By allProduceLink = By.xpath("//*[@id=\"content\"]/section/a");
     private By produceList = By.xpath("//*[contains(text(),'Показано')]");
+    private By produceInStoke = By.xpath("//*[@class='product-quantities']/span");
     private boolean isGetPrice;
     private boolean isGetCount;
 
@@ -160,6 +161,7 @@ public class GeneralActions {
 //                    driver.findElement(moveForward).click();
                     waitForClick(moveForward);
                     Thread.sleep(2000);
+                    Thread.sleep(2000);
 
                 } catch (Exception e) {
                     System.out.println("Stop");
@@ -181,17 +183,23 @@ public class GeneralActions {
                 getProduceName(),
                 "Done: produce name isn't created");
         driver.findElement(By.linkText(getProduceName())).click();
-        Assert.assertEquals(driver.findElement(currentPrice).getAttribute("content"), getPrice(), "Done:price isn't eqals");
-        Assert.assertEquals(driver.findElement(currentCount).getText(), getCount(), "Done:count isn't eqals");
 
-//        List<WebElement> elements = driver.findElements(By.xpath("//*[@class='product-description']/h1/a"));
-//        for (int i = 0; i < elements.size(); i++) {
-//            try {
-//
-//                Assert.assertTrue(elements.get(i).getText().contains(getProduceName()), "Passed: produce is created");
-//            } catch (Exception e) {
-//                System.out.println(elements.get(i).getText() + " - " + getProduceName());
-//            }
-//        }
+        Assert.assertEquals(driver.findElement(currentPrice).getAttribute("content"),
+                getPrice().replace(",", "."),
+                "Done:price isn't eqals");
+
+        Assert.assertEquals(getCount(),
+                checkCountOnStrock(),
+                "Done:count isn't eqals");
     }
+
+    public int checkCountOnStrock() {
+        String textDigits = driver.findElement(produceInStoke).getText();
+
+        String str = textDigits.replaceAll("[^0-9]+", " ");
+        str = str.replace(" ", "");
+
+        return Integer.parseInt(str);
+    }
+
 }
