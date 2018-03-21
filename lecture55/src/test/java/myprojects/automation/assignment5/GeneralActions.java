@@ -91,11 +91,7 @@ public class GeneralActions {
     public String getProduceInStoke() {
         if (isProduceInStock == false) {
             driver.findElement(detailElement).click();
-            try {
-                Thread.sleep(750);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            wait.until(ExpectedConditions.visibilityOfElementLocated(produceInStoke));
             pInStock = driver.findElement(produceInStoke).getText();
             isProduceInStock = true;
         }
@@ -126,7 +122,6 @@ public class GeneralActions {
      */
     public void getOpenedProductInfo() {
         CustomReporter.logAction("Get information about currently opened product");
-//        getCurrentCount();
         getIsPName();
         getCurrentPrice();
         getProduceInStoke();
@@ -164,15 +159,11 @@ public class GeneralActions {
         /*Check Order params*/
         List<WebElement> orderElements = driver.findElements(By.xpath("//*[@class='order-confirmation-table']/div"));
 
-//        System.out.println(getCurrentPrice() + " / " + getIsPName() +
-//                "  /" +
-//                getProduceInStoke());
         if (orderElements.size() <= 1) {
             produceName = orderElements.get(orderElements.size() - 1).getText().substring(0, getIsPName().length());
             Assert.assertEquals(produceName.toUpperCase(), getIsPName(), "Done: Name isn't equals");
             price = price.substring(0, getCurrentPrice().length());
             Assert.assertEquals(price, getCurrentPrice(), "Done: price isn't equals");
-//            System.out.println(price);
         } else {
             System.out.println("Done: more 1 produce in the cart");
         }
@@ -183,7 +174,6 @@ public class GeneralActions {
 //        String linkName = getIsPName().toLowerCase();
 //        linkName = linkName.replaceFirst("[a-z]{1}", linkName.substring(0, 1).toUpperCase());
 //        System.out.println(linkName);
-        String pInStockBefore = pInStock;
         driver.findElement(allProduceLink).click();
         List<WebElement> mainlinks = driver.findElements(someProduce);
         for (int i = 0; i < mainlinks.size(); i++) {
@@ -194,19 +184,15 @@ public class GeneralActions {
         }
 
         waitForClickElementLoad(detailElement);
-        try {
-            Thread.sleep(750);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         String pInStockAfter = "";
         try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(produceInStoke));
             pInStockAfter = driver.findElement(produceInStoke).getText();
         } catch (Exception e) {
             System.out.println("Produce on stock < 1");
         }
         if (pInStockAfter != "") {
-            Assert.assertEquals(checkCountOnStock(pInStockAfter), checkCountOnStock(pInStockBefore) - 1, "Done");
+            Assert.assertEquals(checkCountOnStock(pInStockAfter), checkCountOnStock(pInStock) - 1, "Done: produce isn't used");
         } else {
             System.out.println("Null products in Stock");
         }
@@ -223,10 +209,8 @@ public class GeneralActions {
     }
 
     public int checkCountOnStock(String textDigits) {
-
         String str = textDigits.replaceAll("[^0-9]+", " ");
         str = str.replace(" ", "");
-
         return Integer.parseInt(str);
     }
 }
