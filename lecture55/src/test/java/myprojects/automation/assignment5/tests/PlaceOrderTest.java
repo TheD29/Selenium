@@ -7,7 +7,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class PlaceOrderTest extends BaseTest {
-
     @DataProvider(name = "testParams")
     public static Object[][] params() {
         return new Object[][]{{"MyFirstNameIs", "MyLastNameIs",
@@ -43,5 +42,6 @@ public class PlaceOrderTest extends BaseTest {
         // check updated In Stock value
         actions.backToProducePage();
     }
+
 
 }

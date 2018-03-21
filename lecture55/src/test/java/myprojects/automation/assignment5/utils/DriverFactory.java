@@ -3,7 +3,6 @@ package myprojects.automation.assignment5.utils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -25,7 +24,7 @@ public class DriverFactory {
                 System.setProperty(
                         "webdriver.gecko.driver",
                         new File(DriverFactory.class.getResource("/geckodriver.exe").getFile()).getPath());
-                return new FirefoxDriver();
+
             case "ie":
             case "internet explorer":
                 System.setProperty(
@@ -44,12 +43,17 @@ public class DriverFactory {
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
                 return new ChromeDriver(chromeOptions);
+
             case "chrome":
             default:
                 System.setProperty(
                         "webdriver.chrome.driver",
                         new File(DriverFactory.class.getResource("/chromedriver.exe").getFile()).getPath());
                 return new ChromeDriver();
+            //                ChromeOptions options = new ChromeOptions();
+//                options.addArguments("headless");
+//                options.addArguments("window-size=800x600");
+//                return new FirefoxDriver();
         }
     }
 
